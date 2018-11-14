@@ -1,0 +1,304 @@
+import { mapState } from "vuex";
+import myajax from "@/api/myajax";
+import axios from "axios";
+import homedata from "./homedata.js";
+import datas from "@/store/detail/detaildata.js";
+import store from "@/store";
+import Vue from "vue";
+import moment from "moment";
+import { DatePicker } from "element-ui";
+Vue.use(DatePicker);
+export default {
+  data() {
+    return {
+      boxList: [],
+      DataBox: []
+    };
+  },
+  computed: {
+    ...mapState({
+      product: state => state.detail.product
+    })
+  },
+  mounted() {
+    let hideBtn = document.getElementById("hide");
+    let hideBox = document.getElementsByClassName("hide-box")[0];
+    let List = document.getElementsByClassName("list")[0];
+    let List0 = document.getElementsByClassName("time_text")[0];
+    List.onclick = function() {
+      hideBox.style.display = "none";
+    };
+    List0.onclick = function() {
+      hideBox.style.display = "none";
+    };
+    hideBox.style.display = "none";
+    hideBtn.onclick = function() {
+      if (hideBox.style.display == "none") {
+        hideBox.style.display = "block";
+      } else {
+        hideBox.style.display = "none";
+      }
+    };
+    let _this = this;
+    // console.log(_this);
+    let dataTime = document.getElementsByClassName("dataTime")[0];
+    let now = new Date();
+    let year = now.getFullYear();
+    let month = now.getMonth() + 1; //月
+    let date = "";
+    if (month < 10) date += "0";
+    date += month;
+    dataTime.innerHTML = year + "-" + date;
+    for (let k = 1; k < 13; k++) {
+      let list = document.createElement("li");
+      // console.log(k)
+      let k2 = "";
+      if (k < 10) k2 += "0";
+      k2 += k;
+      //console.log(k2)
+      list.innerHTML = year + "-" + k2;
+      hideBox.appendChild(list);
+      list.onclick = function() {
+        hideBox.style.display = "none";
+        //window.location.href = '/user/login?id='+k
+        let DataShow = document.getElementsByClassName("list_box")[0];
+        let DataShow0 = document.getElementsByClassName("list_box")[1];
+        let DataList = document.getElementsByClassName("DataList");
+        let DataText = document.getElementsByClassName("DataText");
+        let pic = document.getElementsByClassName("DataPic");
+        let goDate = document.getElementsByClassName("time_text")[0];
+        let outDate = document.getElementsByClassName("out_data")[0];
+        let goDate_ = document.getElementsByClassName("go_data")[0];
+        let State_out = document.getElementsByClassName("State_out")[0];
+        let Never = document.getElementsByClassName("never")[0];
+        DataShow.style.display = "none";
+        DataShow0.style.display = "block";
+        console.log(_this.$route.query.translateId);
+        axios
+          .get(
+            "http://106.14.115.8:8008/api/Wl_Inshop_Device_Record_RuiWein/ModelCheckWorkRecordAsync?param.accountId=" +
+              _this.$route.query.accountId +
+              "&param.translateId=" +
+              _this.$route.query.translateId +
+              "&param.year=" +
+              year +
+              "&param.month=" +
+              k
+          )
+          .then(response => {
+            console.log(_this.$route.query.translateId);
+            //console.log(response)
+            _this.boxList = response.data.Result.CheckList;
+            //console.log(_this.boxList)
+            for (let j = 0; j <= DataList.length; j++) {
+              let data_ = _this.boxList[j];
+              if (data_.Record[0] && data_.Record[1]) {
+                if (data_.Record[0].State == 1 || data_.Record[1].State == 2) {
+                  DataList[j].classList.add("State");
+                }
+                if (data_.Record[0].State == 1 && data_.Record[1].State == 0) {
+                  DataList[j].classList.remove("State");
+                  DataList[j].classList.add("State0");
+                }
+                if (data_.Record[0].State == 0 && data_.Record[1].State == 2) {
+                  DataList[j].classList.remove("State");
+                  DataList[j].classList.add("State0");
+                }
+                if (data_.Record[0].State == 0 && data_.Record[1].State == 0) {
+                  DataList[j].classList.remove("State");
+                  DataList[j].classList.remove("State0");
+                  DataList[j].classList.add("State1");
+                }
+              } else {
+                DataList[j].classList.remove("State");
+                DataList[j].classList.remove("State0");
+                DataList[j].classList.remove("State1");
+              }
+              if (data_.State == -1) {
+                DataList[j].classList.add("else");
+              } else {
+                DataList[j].classList.remove("else");
+              }
+              //console.log(data_)
+              DataList[j].onclick = function() {
+                if (data_.Record[0] && data_.Record[1]) {
+                  goDate_.innerHTML = data_.Record[0].TimeText;
+                  outDate.innerHTML = data_.Record[1].TimeText;
+                  if (
+                    data_.Record[0].State == 1 ||
+                    data_.Record[1].State == 2
+                  ) {
+                    goDate.classList.remove("State_late0");
+                    goDate.classList.remove("State_late1");
+                    goDate.classList.remove("State_late2");
+                    goDate.classList.add("State_late");
+                    State_go.innerHTML = "迟到";
+                    State_out.innerHTML = "早退";
+                  }
+                  if (
+                    data_.Record[0].State == 1 &&
+                    data_.Record[1].State == 0
+                  ) {
+                    goDate.classList.remove("State_late");
+                    goDate.classList.remove("State_late1");
+                    goDate.classList.remove("State_late2");
+                    goDate.classList.add("State_late0");
+                    State_go.innerHTML = "迟到";
+                    State_out.innerHTML = "正常";
+                  }
+                  if (
+                    data_.Record[0].State == 0 &&
+                    data_.Record[1].State == 2
+                  ) {
+                    goDate.classList.remove("State_late");
+                    goDate.classList.remove("State_late0");
+                    goDate.classList.remove("State_late2");
+                    goDate.classList.add("State_late1");
+                    State_go.innerHTML = "正常";
+                    State_out.innerHTML = "早退";
+                  }
+                  if (
+                    data_.Record[0].State == 0 &&
+                    data_.Record[1].State == 0
+                  ) {
+                    goDate.classList.remove("State_late");
+                    goDate.classList.remove("State_late0");
+                    goDate.classList.remove("State_late1");
+                    goDate.classList.add("State_late2");
+                    State_go.innerHTML = "正常";
+                    State_out.innerHTML = "正常";
+                  }
+                } else {
+                  goDate_.innerHTML = "";
+                  outDate.innerHTML = "";
+                  goDate.classList.remove("State_late");
+                  goDate.classList.remove("State_late0");
+                  goDate.classList.remove("State_late1");
+                  goDate.classList.remove("State_late2");
+                }
+                //console.log(data_.State)
+              };
+            }
+          });
+        let index = k;
+        console.log(index);
+        dataTime.innerHTML = list.innerHTML;
+      };
+    }
+    localStorage.removeItem("accountId", this.$route.query.accountId);
+    localStorage.removeItem("translateId", this.$route.query.translateId);
+
+    var id = this.$route.query;
+    this.$store.dispatch("getdetail", id);
+
+    let DataList_ = document.getElementsByClassName("DataList_");
+    let goDate_ = document.getElementsByClassName("go_data")[0];
+    let outDate = document.getElementsByClassName("out_data")[0];
+    let State_go = document.getElementsByClassName("State_go")[0];
+    let State_out = document.getElementsByClassName("State_out")[0];
+    let DataText_ = document.getElementsByClassName("DataText_");
+    let goDate = document.getElementsByClassName("time_text")[0];
+    let Mark = document.getElementsByClassName("mark");
+    setTimeout(() => {
+      //console.log( this.$store.state.detail.product)
+      let elseList = this.$store.state.detail.product;
+      for (let p = 0; p < elseList.CheckList.length; p++) {
+        // console.log(elseList.CheckList[p])
+        let data_0 = elseList.CheckList[p];
+        //console.log(data_0)
+        if (data_0.Record[0] && data_0.Record[1]) {
+          if (data_0.Record[0].State == 1 || data_0.Record[1].State == 2) {
+            DataList_[p].classList.add("State");
+          }
+          if (data_0.Record[0].State == 1 && data_0.Record[1].State == 0) {
+            goDate.classList.remove("State_late");
+            DataList_[p].classList.add("State0");
+          }
+          if (data_0.Record[0].State == 0 && data_0.Record[1].State == 2) {
+            DataList_[p].classList.remove("State");
+            DataList_[p].classList.add("State0");
+          }
+          if (data_0.Record[0].State == 0 && data_0.Record[1].State == 0) {
+            DataList_[p].classList.remove("State");
+            DataList_[p].classList.remove("State0");
+            DataList_[p].classList.add("State1");
+          }
+        }
+        //console.log(data_0.State)
+        if (data_0.State == -1) {
+          DataList_[p].classList.add("else");
+        } else {
+          DataList_[p].classList.remove("else");
+        }
+        DataList_[p].onclick = function() {
+          if (data_0.Record[0] && data_0.Record[1]) {
+            goDate_.innerHTML = data_0.Record[0].TimeText;
+            outDate.innerHTML = data_0.Record[1].TimeText;
+            if (data_0.Record[0].State == 1 || data_0.Record[1].State == 2) {
+              goDate.classList.remove("State_late0");
+              goDate.classList.remove("State_late1");
+              goDate.classList.remove("State_late2");
+              goDate.classList.add("State_late");
+              State_go.innerHTML = "迟到";
+              State_out.innerHTML = "早退";
+            }
+            if (data_0.Record[0].State == 1 && data_0.Record[1].State == 0) {
+              goDate.classList.remove("State_late");
+              goDate.classList.remove("State_late1");
+              goDate.classList.remove("State_late2");
+              goDate.classList.add("State_late0");
+              State_go.innerHTML = "迟到";
+              State_out.innerHTML = "正常";
+            }
+            if (data_0.Record[0].State == 0 && data_0.Record[1].State == 2) {
+              goDate.classList.remove("State_late");
+              goDate.classList.remove("State_late0");
+              goDate.classList.remove("State_late2");
+              goDate.classList.add("State_late1");
+              State_go.innerHTML = "正常";
+              State_out.innerHTML = "早退";
+            }
+            if (data_0.Record[0].State == 0 && data_0.Record[1].State == 0) {
+              goDate.classList.remove("State_late");
+              goDate.classList.remove("State_late0");
+              goDate.classList.remove("State_late1");
+              goDate.classList.add("State_late2");
+              State_go.innerHTML = "正常";
+              State_out.innerHTML = "正常";
+            }
+          } else {
+            goDate_.innerHTML = "";
+            outDate.innerHTML = "";
+            goDate.classList.remove("State_late");
+            goDate.classList.remove("State_late0");
+            goDate.classList.remove("State_late1");
+            goDate.classList.remove("State_late2");
+          }
+        };
+      }
+    }, 300);
+    //console.log(this.$route)
+    //console.log(this.$route.query.accountId)
+  },
+  methods: {
+    monthList() {
+      this.$router.push(
+        "/user/login-b?accountId=" +
+          this.$route.query.accountId +
+          "&translateId=" +
+          this.$route.query.translateId
+      );
+    },
+    list() {
+      this.$router.push(
+        "/user/login-d?accountId=" +
+          this.$route.query.accountId +
+          "&translateId=" +
+          this.$route.query.translateId
+      );
+    },
+    hide() {
+      console.log("11");
+    }
+  }
+};

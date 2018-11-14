@@ -1,0 +1,21 @@
+@import "@/lib/reset.scss";
+.conmin{
+  @include rect(100%,100%);
+  background-color:#f5f5f5;
+  .con_box{
+    display: block;
+    @include rect(100%,0.6rem);
+    text-align: center;
+    font-size: 0.18rem;
+    line-height: 0.3rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+  }
+  .infom{
+        @include rect(100%,0.3rem);
+  }
+}

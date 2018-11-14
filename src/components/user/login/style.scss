@@ -1,0 +1,421 @@
+@import "@/lib/reset.scss";
+
+.conmin {
+  @include rect(100%, 5.55rem);
+  background-color: #fff;
+  .top {
+    @include rect(100%, 0.35rem);
+    background-color: #586167;
+    position: fixed;
+    top: 0;
+    z-index: 999999;
+    span {
+      float: right;
+      line-height: 0.35rem;
+      margin-right: 0.3rem;
+    }
+    #hide {
+      position: absolute;
+      display: inline-block;
+      width: 0.1rem;
+      height: 0.1rem;
+      border-top: 1px solid #fff;
+      border-right: 1px solid #fff;
+      right: 0.1rem;
+      top: 0;
+      bottom: 0.1rem;
+      margin: auto;
+      transform: rotate(135deg);
+    }
+    .top_data {
+      color: #fff;
+    }
+  }
+  .header_data {
+    @include rect(90%, 0.65rem);
+    padding: 0.05rem 0;
+    margin: 0 5%;
+    background-color: #fff;
+    border-bottom: 1px solid #cdcdcd;
+
+    .team_name {
+      @include rect(40%, 0.55rem);
+      float: left;
+      .name_pic {
+        @include rect(0.5rem, 0.5rem);
+        margin: 0 0.1rem 0.02rem 0;
+        float: left;
+        background-color: #eee;
+        img {
+          @include rect(100%, 100%);
+        }
+      }
+      span {
+        display: block;
+        font-size: 0.16rem;
+        height: 0.25rem;
+        line-height: 0.25rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      p {
+        font-size: 0.14rem;
+        color: #b3b3b3;
+        margin-top: 0.05rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+    .team_list {
+      @include rect(23%, 0.55rem);
+      font-size: 0.16rem;
+      line-height: 0.45rem;
+      padding: 0.05rem 0.1rem;
+      text-align: center;
+      border-left: 1px solid #ddd;
+      border-right: 1px solid #ddd;
+      float: left;
+      color: #161616;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .team_info {
+      @include rect(37%, 0.45rem);
+      float: left;
+      padding: 0.05rem 0;
+      font-size: 0.16rem;
+      line-height: 0.45rem;
+      text-align: left;
+      text-indent: 0.1rem;
+      color: #161616;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+  .time_data {
+    @include rect(100%, 1.7rem);
+    margin-top: 0.35rem;
+    margin-bottom: 0.35rem;
+    .else {
+      @include rect(5%, 60%);
+      float: left;
+      margin: 0.2rem;
+      margin-right: 0;
+      position: relative;
+      span {
+        position: absolute;
+        display: block;
+        @include rect(0.15rem, 0.15rem);
+        border-radius: 0.15rem;
+        background-color: #fff;
+        border-color: #dcdcdc;
+      
+      }
+      .one_r {
+        top: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        border: 1px solid #dcdcdc;
+      }
+      .two_r {
+        top: 0.15rem;
+        left: 0;
+        right: 0;
+        margin: auto;
+        height: 0.71rem;
+        width: 0.01rem;
+        border-radius: 0%;
+        background-color: #f5f5f5;
+        border-right:  1px solid #dcdcdc;
+      }
+      .tree_r {
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        border: 1px solid #dcdcdc;
+      }
+    }
+
+    .time_text {
+      float: left;
+      @include rect(80%, 80%);
+
+      margin-top: 0.2rem;
+      .go_time {
+        margin-bottom: 0.65rem;
+
+        p {
+          margin-bottom: 0.05rem;
+          margin-left: 0.05rem;
+          color: #b2b2b2;
+          //overflow: hidden;
+        }
+        .go_data {
+          margin-left: 0.05rem;
+          color: #656565;
+          float: left;
+        }
+        .State_go {
+          display: block;
+          @include rect(0.35rem, 0.2rem);
+          float: left;
+          border: 1px solid #f66;
+          border-radius: 0.02rem;
+          margin-left: 2.5%;
+          font-size: 0.14rem;
+          text-align: center;
+          line-height: 0.2rem;
+          display: none;
+        }
+      }
+      .out_time {
+        p {
+          margin-bottom: 0.05rem;
+          margin-left: 0.05rem;
+          color: #b2b2b2;
+        }
+        .out_data {
+          margin-left: 0.05rem;
+          color: #656565;
+          float: left;
+        }
+        .State_out {
+          display: block;
+          @include rect(0.35rem, 0.2rem);
+          float: left;
+          border: 1px solid green;
+          border-radius: 0.02rem;
+          margin-left: 2.5%;
+          font-size: 0.14rem;
+          text-align: center;
+          line-height: 0.2rem;
+          display: none;
+        }
+      }
+    }
+
+    //时间状态
+    .State_late  {
+      //迟到and早退
+      .go_time {
+        .State_go {
+          display: block;
+          border: 1px solid #efba92;
+          color: #efba92;
+        }
+      }
+      .out_time {
+        .State_out {
+          display: block;
+          border: 1px solid #efba92;
+          color: #efba92;
+        }
+      }
+    }
+    .State_late0  {
+      //迟到
+      .go_time {
+        .State_go {
+          display: block;
+          border: 1px solid #efba92;
+          color: #efba92;
+        }
+      }
+      .out_time {
+        .State_out {
+          display: block;
+          border: 1px solid #43c552;
+          color: #43c552;
+        }
+      }
+    }
+    
+    .State_late1 {
+      //早退
+      .go_time {
+        .State_go {
+          display: block;
+          border: 1px solid #43c552;
+          color: #43c552;
+        }
+      }
+      .out_time {
+        .State_out {
+          display: block;
+          border: 1px solid #efba92;
+          color: #efba92;
+        }
+      }
+    }
+    .State_late2 {
+      //正常
+      .go_time {
+        .State_go {
+          display: block;
+          border: 1px solid #43c552;
+          color: #43c552;
+        }
+      }
+      .out_time {
+        .State_out {
+          display: block;
+          border: 1px solid #43c552;
+          color: #43c552;
+        }
+      }
+    }
+    // 未开始&&未打卡
+    .State_ever, .State_never{
+      .go_time {
+        .State_go {
+          @include rect(0.45rem, 0.2rem);
+          display: block;
+          border: 1px solid #ddd;
+          color: #999;
+          margin-left: 6.5%;
+        }
+      }
+      .out_time {
+        .State_out {
+          @include rect(0.45rem, 0.2rem);
+          display: block;
+          border: 1px solid #ddd;
+          color: #999;
+          margin-left: 6.5%;
+        }
+      }
+    }
+  }
+  .list_header {
+    @include rect(88%, 0.45rem);
+    margin: 0 6%;
+    line-height: 0.45rem;
+    font-size: 0.16rem;
+    margin-bottom: 0.15rem;
+    border-bottom: 1px solid #f0f0f0;
+    overflow: hidden;
+  }
+  .list {
+    @include rect(90%, auto);
+    margin: 0 5%;
+
+
+
+    .list_box {
+       display: none;
+       @include rect(100%, auto);
+       @include flexbox();
+      @include flex-flow(wrap);
+      @include align-content();
+      @include flex-direction(row);
+      //@include justify-content(space-between);
+
+
+      figure {
+        @include justify-content(content);
+        @include rect(12%, 0.65rem);
+        margin-left: 2.1%;
+   
+
+        i {
+          display: none;
+        }
+
+        span {
+          display: block;
+          @include rect(0.4rem, 0.4rem);
+          background-color: #b5b5b5;
+            position: relative;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            margin: auto;
+
+          img {
+            @include rect(100%, 100%);
+          }
+          .mark {
+            position: absolute;
+            display: block;
+            @include rect(0.1rem, 0.1rem);
+            top: 0;
+            right: 0;
+            border-radius: 0.1rem;
+          }
+        }
+        figcaption {
+          width: 0.4rem;
+          line-height: 0.21rem;
+          text-align: center;
+          color: #b5b5b5;
+          position: relative;
+          left: 0;
+          top: 0;
+          bottom: 0;
+          right: 0;
+          margin: auto;
+        }
+      }
+      .else {
+        .mark {
+          background-color: #f66;
+          display: none;
+        }
+        span {
+          overflow: hidden;
+          img {
+            @include rect(0.15rem, 0.15rem);
+            margin: 0.02rem 0.05rem 0 0.12rem;
+          }
+          i {
+            display: block;
+            @include rect(0.4rem, 0.2rem);
+            font-style: normal;
+            text-align: center;
+            font-size: 0.12rem;
+            transform: scale(0.8);
+            color: #525252;
+            margin-top: 0.02rem;
+            text-indent: 0.03rem;
+          }
+        }
+      }
+
+      .State {
+        //早退 and迟到
+        .mark {
+          background-color: #efba92;
+        }
+        figcaption {
+          color: #efba92;
+        }
+      }
+      .State0 {
+        //早退 Or迟到
+
+        .mark {
+          background-color: #efba92;
+        }
+        figcaption {
+          color: #efba92;
+        }
+      }
+      .State1 {
+        .mark {
+          background-color: green;
+        }
+        figcaption {
+          //正常
+          color: green;
+        }
+      }
+    }
+  }
+}

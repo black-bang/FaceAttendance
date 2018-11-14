@@ -1,0 +1,8 @@
+export const KIND_DATA = 'KIND_DATA'
+export const DETAIL_DATA = 'DETAIL_DATA'
+export const CART_DATA = 'CART_DATA'
+export const CART_STATS = 'CART_STATS'
+export const REMOVE_STATS = 'REMOVE_STATS'
+export const REMOVES_STATS = 'REMOVES_STATS'
+export const USER_DATA = 'USER_DATA'
+export const USERS_DATA = 'USERS_DATA'

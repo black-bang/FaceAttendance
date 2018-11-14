@@ -1,0 +1,30 @@
+@import '@/lib/reset.scss';
+.header{
+  @include rect(100%,0.45rem);
+  @include flexbox();
+  @include justify-content(space-between);
+  @include align-items();
+  @include text-color(#5e5e5e);
+  @include background-color(#fafafa);
+  border-bottom: 1px solid #c9c7c8;
+  .header_left{
+    @include rect(0.45rem,100%);
+    @include text-align();
+    @include line-height(0.45rem);
+    i{
+      @include font-size(0.35rem)
+    }
+  }
+  .header_con{
+    @include rect(auto,100%);
+    @include flex();
+    @include text-align();
+    @include line-height(0.45rem);
+    @include font-size(0.18rem)
+  }
+  .header_right{
+    @include rect(auto ,100%);
+    @include line-height(0.45rem);
+    padding-right: 0.08rem;
+  }
+}
